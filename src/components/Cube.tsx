@@ -1,31 +1,37 @@
 import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Float, useGLTF, useTexture } from "@react-three/drei";
+import { Mesh } from "three";
 
-const Cube = ({ ...props }) => {
-  const { nodes } = useGLTF("models/cube.glb");
+type CubeProps = JSX.IntrinsicElements["group"];
 
+const Cube: React.FC<CubeProps> = ({ ...props }) => {
+  const { nodes } = useGLTF("models/cube.glb") as any; // Ensure correct typecasting if `useGLTF` doesn't have proper types
   const texture = useTexture("textures/cube.png");
-
-  const cubeRef = useRef();
+  const cubeRef = useRef<Mesh>(null); // Use the correct Three.js type for mesh ref
   const [hovered, setHovered] = useState(false);
 
-  useGSAP(() => {
-    gsap
-      .timeline({
-        repeat: -1,
-        repeatDelay: 0.5,
-      })
-      .to(cubeRef.current.rotation, {
-        y: hovered ? "+=2" : `+=${Math.PI * 2}`,
-        x: hovered ? "+=2" : `-=${Math.PI * 2}`,
-        duration: 2.5,
-        stagger: {
-          each: 0.15,
-        },
-      });
-  });
+  useEffect(() => {
+    if (!cubeRef.current) return;
+
+    const tl = gsap.timeline({
+      repeat: -1,
+      repeatDelay: 0.5,
+    });
+
+    tl.to(cubeRef.current.rotation, {
+      y: hovered ? "+=2" : `+=${Math.PI * 2}`,
+      x: hovered ? "+=2" : `-=${Math.PI * 2}`,
+      duration: 2.5,
+      stagger: {
+        each: 0.15,
+      },
+    });
+
+    return () => {
+      tl.kill(); // Clean up GSAP animation when the component unmounts
+    };
+  }, [hovered]);
 
   return (
     <Float floatIntensity={2}>
@@ -43,6 +49,7 @@ const Cube = ({ ...props }) => {
           geometry={nodes.Cube.geometry}
           material={nodes.Cube.material}
           onPointerEnter={() => setHovered(true)}
+          onPointerLeave={() => setHovered(false)} // Reset hovered state on pointer leave
         >
           <meshMatcapMaterial matcap={texture} toneMapped={false} />
         </mesh>

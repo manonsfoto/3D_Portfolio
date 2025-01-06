@@ -1,10 +1,30 @@
 import { Float, useGLTF } from "@react-three/drei";
+import { useRef } from "react";
+import * as THREE from "three"; // Import THREE for typings
 
-const ReactLogo = (props) => {
-  const { nodes, materials } = useGLTF("/models/react.glb");
+type ReactLogoProps = JSX.IntrinsicElements["group"];
+const ReactLogo: React.FC<ReactLogoProps> = (props) => {
+  // Properly type the return value of useGLTF
+  const { nodes, materials } = useGLTF("/models/react.glb") as unknown as {
+    nodes: {
+      [key: string]: THREE.Mesh; // Correctly type nodes as THREE.Mesh
+    };
+    materials: {
+      [key: string]: THREE.Material; // Correctly type materials as THREE.Material
+    };
+  };
+
+  const groupRef = useRef<THREE.Group>(null); // Type the ref as a THREE.Group
+
   return (
     <Float floatIntensity={1}>
-      <group position={[8, 8, 0]} scale={0.4} {...props} dispose={null}>
+      <group
+        ref={groupRef}
+        position={[8, 8, 0]}
+        scale={0.4}
+        {...props}
+        dispose={null}
+      >
         <mesh
           castShadow
           receiveShadow
@@ -19,5 +39,7 @@ const ReactLogo = (props) => {
   );
 };
 
+// Preload the GLTF model for optimization
 useGLTF.preload("/models/react.glb");
+
 export default ReactLogo;

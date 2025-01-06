@@ -2,25 +2,37 @@ import { useGSAP } from "@gsap/react";
 import { Center, useTexture } from "@react-three/drei";
 import gsap from "gsap";
 import { useCallback, useRef } from "react";
+import * as THREE from "three";
 
-const Rings = ({ position }) => {
-  const refList = useRef([]);
-  const getRef = useCallback((mesh) => {
+interface RingsProps {
+  position: [number, number, number];
+}
+
+const Rings: React.FC<RingsProps> = ({ position }) => {
+  // Ref to hold all meshes
+  const refList = useRef<THREE.Mesh[]>([]);
+
+  // Callback to collect mesh references
+  const getRef = useCallback((mesh: THREE.Mesh | null) => {
     if (mesh && !refList.current.includes(mesh)) {
       refList.current.push(mesh);
     }
   }, []);
 
+  // Load texture
   const texture = useTexture("textures/rings.png");
 
+  // GSAP animation
   useGSAP(
     () => {
       if (refList.current.length === 0) return;
 
+      // Set position for all meshes
       refList.current.forEach((r) => {
         r.position.set(position[0], position[1], position[2]);
       });
 
+      // Animate rotation
       gsap
         .timeline({
           repeat: -1,
@@ -39,7 +51,7 @@ const Rings = ({ position }) => {
         );
     },
     {
-      dependencies: position,
+      dependencies: [position],
     }
   );
 
@@ -48,7 +60,7 @@ const Rings = ({ position }) => {
       <group scale={0.5}>
         {Array.from({ length: 4 }, (_, index) => (
           <mesh key={index} ref={getRef}>
-            <torusGeometry args={[(index + 1) * 0.5, 0.1]}></torusGeometry>
+            <torusGeometry args={[(index + 1) * 0.5, 0.1]} />
             <meshMatcapMaterial matcap={texture} toneMapped={false} />
           </mesh>
         ))}

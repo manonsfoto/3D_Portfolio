@@ -1,4 +1,12 @@
-const Button = ({ name, isBeam = false, containerClass }) => {
+import { FC } from "react";
+
+interface ButtonProps {
+  name: string;
+  isBeam: boolean;
+  containerClass: string;
+}
+
+const Button: FC<ButtonProps> = ({ name, isBeam = false, containerClass }) => {
   return (
     <button className={`btn ${containerClass}`}>
       {isBeam && (
