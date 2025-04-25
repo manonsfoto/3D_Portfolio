@@ -1,6 +1,5 @@
 const Button = ({
   className,
-  id,
   text,
 }: {
   className: string;
