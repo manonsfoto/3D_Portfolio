@@ -37,8 +37,9 @@ const Hero = () => {
               <h1>that Deliver Results</h1>
             </div>
             <p className="text-white-50 md:text-xl relative z-10 pointer-events-none">
-              Hi, I'm Minyeong, a Frontend developer based in Germany with a
-              passion for creating visually stunning and user-friendly websites.
+              Hi, I'm Minyeong, a Frontend developer <br /> based in Germany
+              with a passion for <br />
+              creating visually stunning and user-friendly websites.
             </p>
             <Button
               className="md:w-80 md:h-16 w-60 h-12"
