@@ -46,35 +46,37 @@ const ShowcaseSection = () => {
         <div className="showcaselayout">
           <div ref={project1Ref} className="first-project-wrapper">
             <div className="image-wrapper">
-              <img src="/images/project1.png" alt="Ryde" />
+              <img src="/images/project1.png" alt="MORENT" />
             </div>
             <div className="text-content">
               <h2>
-                On-Demand Rides Made Simple with a Powerful, User-Friendly App
-                called Ryde
+                Car Rental Platform: Search, Filter & Easily Book Vehicles
+                Online with MORENT
               </h2>
               <p className="text-white-50 md:text-xl">
-                An app built with React Native, Expo, & TailwindCSS for a fast,
-                user-friendly experience.
+                A responsive web application built with React, allowing users to
+                browse, filter, and conveniently book rental cars.
               </p>
             </div>
           </div>
           <div className="project-list-wrapper overflow-hidden">
             <div ref={project2Ref} className="project">
               <div className="image-wrapper bg-[#ffefdb]">
-                <img
-                  src="/images/project2.png"
-                  alt="Library Management Platform"
-                />
+                <img src="/images/project2.png" alt="Recipe App" />
               </div>
-              <h2>Library Management Platform</h2>
+              <h2>
+                All-in-One Recipe Platform for Discovering, Creating and
+                Managing Recipes with Integrated Shopping List Feature
+              </h2>
             </div>
 
             <div ref={project3Ref} className="project">
               <div className="image-wrapper bg-[#ffe7eb]">
-                <img src="/images/project3.png" alt="YC Directory" />
+                <img src="/images/project3.png" alt="Weather App" />
               </div>
-              <h2>YC Directory - A Startup Showcase App</h2>
+              <h2>
+                Weather Check + Outfit Recommendations Based on Temperature
+              </h2>
             </div>
           </div>
         </div>
